@@ -71,6 +71,30 @@ html,
       backdrop-filter: blur(6px);
       display: none;
     }
+	
+	#restartBtn {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 20;
+
+  padding: 12px 18px;
+  font-size: 16px;
+  font-weight: bold;
+
+  color: white;
+  background: rgba(255, 60, 60, 0.85);
+  border: none;
+  border-radius: 12px;
+
+  box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+}
+
+#restartBtn:active {
+  transform: scale(0.95);
+}
+
 
     @media (pointer: coarse) {
       .joyHint {

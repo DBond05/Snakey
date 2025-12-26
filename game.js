@@ -1,8 +1,8 @@
  (() => {
       "use strict";
       // ----------------------------//
-      // ---------- Canvas ----------//
-      // ----------------------------//
+     // ---------- Canvas ----------//
+    // ----------------------------//
       const canvas = document.getElementById("c");
       const ctx = canvas.getContext("2d");
 
@@ -15,14 +15,14 @@
       window.addEventListener("resize", resize, { passive: true });
       resize();
       // ----------------------------//
-      // ---------- HUD -------------//
-      // ----------------------------//
+     // ---------- HUD -------------//
+    // ----------------------------//
       const scoreEl = document.getElementById("score");
       const msgEl = document.getElementById("msg");
 
       // -----------------------------//
-      // ---------- Helpers ----------//
-      // -----------------------------//
+     // ---------- Helpers ----------//
+    // -----------------------------//
       const TAU = Math.PI * 2;
 
       const rand = (a, b) => a + Math.random() * (b - a);
@@ -127,8 +127,8 @@
 
 
       // ----------------------------//
-      // ---------- World -----------//
-      // ----------------------------//
+     // ---------- World -----------//
+    // ----------------------------//
       const WORLD = {
         w: 5200,
         h: 5200,
@@ -143,8 +143,8 @@
       }
 
       // ----------------------------//
-      // ---------- Input -----------//
-      // ----------------------------//
+     // ---------- Input -----------//
+    // ----------------------------//
       const input = {
         pointerActive: false,
         pointerX: 0,
@@ -205,9 +205,14 @@
           input.boost = false;
         }
       });
+	  document.getElementById("restartBtn").addEventListener("click", () => {
+		restart();
+			});
+
+	  
       // --------------------------//
-      //--------Enemy Snakes-------//
-      // --------------------------//
+     //--------Enemy Snakes-------//
+    // --------------------------//
       const ENEMIES = {
         count: 10,
         radius: 12,
@@ -259,8 +264,8 @@
       }
 
       // ------------------------//
-      //----- Enemy Snake AI-----//
-      // ------------------------//
+     //----- Enemy Snake AI-----//
+    // ------------------------//
       function findNearestFood(x, y, maxDist = 900) {
         let best = null;
         let bestD2 = maxDist * maxDist;
@@ -419,8 +424,8 @@
 
 
       // ----------------------------//
-      // ---------- Player Snake ----//
-      // ----------------------------//
+     // ---------- Player Snake ----//
+    // ----------------------------//
       const snake = {
         head: { x: WORLD.w / 2, y: WORLD.h / 2, a: 0 },
         radius: 12,
@@ -454,8 +459,8 @@
       }
 
       // --------------------------//
-      // ---------- Food ----------//
-      // --------------------------//
+     // ---------- Food ----------//
+    // --------------------------//
       const FOOD = {
         count: 150,
         minR: 3,
@@ -488,8 +493,8 @@
       }
 
       // ----------------------------//
-      // ---------- Camera ----------//
-      // ----------------------------//
+     // ---------- Camera ----------//
+    // ----------------------------//
       const cam = { x: 0, y: 0, zoom: 1 };
 
       function updateCamera(dt) {
@@ -502,15 +507,17 @@
 
 
       // --------------------------------//
-      // ---------- Game State ----------//
-      // --------------------------------//
+     // ---------- Game State ----------//
+    // --------------------------------//
       let score = 0;
       let dead = false;
 
       function gameOver() {
         dead = true;
         msgEl.style.display = "flex";
-        msgEl.innerHTML = `<h1>Game Over<br><small>Press <b>R</b> to restart</small> </h1>`;
+        msgEl.innerHTML = `<h1>Game Over<br><small>Press <b>R</b> or the Restart Button</small> </h1>`;
+		document.getElementById("restartBtn").style.display = "block";
+
         // Drop food along the body
         const dropEvery = 14;
         for (let i = 0; i < snake.body.length; i += dropEvery) {
@@ -521,18 +528,20 @@
 
       function restart() {
         dead = false;
+		document.getElementById("restartBtn").style.display = "none";
         score = 0;
         scoreEl.textContent = String(score);
         msgEl.style.display = "none";
         initSnake();
         spawnEnemies();
         spawnFood();
+		
       }
 
 
       // -------------------------------------------------//
-      // ---------- Trail + Body reconstruction ----------//
-      // -------------------------------------------------//
+     // ---------- Trail + Body reconstruction ----------//
+    // -------------------------------------------------//
       function pushTrailPoint(x, y) {
         const t = snake.trail;
         const last = t[t.length - 1];
@@ -580,8 +589,8 @@
 
 
       // ----------------------------//
-      // ---------- Update ----------//
-      // ----------------------------//
+     // ---------- Update ----------//
+    // ----------------------------//
       function update(dt) {
         if (dead) return;
 
@@ -683,8 +692,8 @@
       }
 
       // ----------------------------//
-      // ---------- Render ----------//
-      // ----------------------------//
+     // ---------- Render ----------//
+    // ----------------------------//
       function drawBackground() {
         // Base
         ctx.fillStyle = "#070a10";
@@ -1028,8 +1037,8 @@
         drawTouchJoystick();
       }
       // -----------------------------//
-      // ---------- Main Loop --------//
-      // -----------------------------//
+     // ---------- Main Loop --------//
+    // -----------------------------//
       let last = performance.now();
       function frame(now) {
         const dt = Math.min(0.033, (now - last) / 1000); // cap for stability
@@ -1042,8 +1051,8 @@
       }
 
       // ----------------------------//
-      // ---------- Start -----------//
-      // ----------------------------//
+     // ---------- Start -----------//
+    // ----------------------------//
       restart();
       requestAnimationFrame(frame);
 
